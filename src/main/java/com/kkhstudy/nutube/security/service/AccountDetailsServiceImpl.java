@@ -15,23 +15,25 @@ import java.util.List;
 
 @Service("userDetailsService")
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class AccountDetailsServiceImpl implements UserDetailsService {
 
     private final AccountRepository accountRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmail(email);
 
-        if (account == null) {
+        Account user = accountRepository.findByEmail(email);
+
+        if (user == null) {
             throw new UsernameNotFoundException("UsernameNotFoundException");
         }
 
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(account.getRole()));
+        roles.add(new SimpleGrantedAuthority(user.getRole()));
 
-        AccountContext accountContext = new AccountContext(account, roles);
+        AccountContext accountContext = new AccountContext(user, roles);
+
         return accountContext;
     }
 }

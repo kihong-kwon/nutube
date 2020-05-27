@@ -3,6 +3,7 @@ package com.kkhstudy.nutube.security.constants;
 public class SecurityConstants {
     public static final String AJAX_AUTH_LOGIN_URL = "/api/ajax/login";
     public static final String JWT_AUTH_LOGIN_URL = "/api/jwt/login";
+    public static final String JWT_AUTH_ACCESS_URL = "/api/jwt/**";
 
     // Signing key for HS512 algorithm
     // You can use the page http://www.allkeysgenerator.com/ to generate all kinds of keys

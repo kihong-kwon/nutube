@@ -1,8 +1,7 @@
 package com.kkhstudy.nutube.security.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kkhstudy.nutube.dto.ErrorDto;
-import com.kkhstudy.nutube.dto.ResultDto;
+import com.kkhstudy.nutube.dto.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -19,10 +18,10 @@ public class AjaxLoginAuthenticationEntryPoint implements AuthenticationEntryPoi
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ResultDto<Object> result = new ResultDto<>();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        result.setErr(ErrorDto.builder().errmsg(HttpStatus.UNAUTHORIZED.toString()).build());
+
+        ResponseDTO<Object> result = ResponseDTO.builder().status(HttpStatus.UNAUTHORIZED.toString()).build();
         String jsonResult = objectMapper.writeValueAsString(result);
         response.getWriter().write(jsonResult);
     }

@@ -1,8 +1,8 @@
 package com.kkhstudy.nutube.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kkhstudy.nutube.dto.ErrorDto;
-import com.kkhstudy.nutube.dto.ResultDto;
+
+import com.kkhstudy.nutube.dto.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,8 +23,6 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        ResultDto<Object> result = new ResultDto<>();
-
         String errorMessage = "Invalid Username or Password";
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -37,7 +35,9 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
         } else if(exception instanceof CredentialsExpiredException) {
             errorMessage = "Expired password";
         }
-        result.setErr(ErrorDto.builder().errmsg(errorMessage).build());
+
+        ResponseDTO<Object> result = ResponseDTO.builder().status(errorMessage).build();
+
         String json = mapper.writeValueAsString(result);
         response.getWriter().write(json);
     }
