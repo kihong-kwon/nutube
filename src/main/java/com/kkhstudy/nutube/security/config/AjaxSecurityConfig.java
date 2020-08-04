@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import javax.sql.DataSource;
 
-@Configuration
 @RequiredArgsConstructor
 @Slf4j
 public class AjaxSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -39,7 +38,7 @@ public class AjaxSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf().ignoringAntMatchers(SecurityConstants.AJAX_AUTH_LOGIN_URL).ignoringAntMatchers("/api/ajax/register").and()
                 .authorizeRequests()
                 .antMatchers("/api/ajax/**").permitAll()
                 .anyRequest().authenticated()

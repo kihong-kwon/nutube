@@ -1,6 +1,6 @@
 package com.kkhstudy.nutube.api.validation;
 
-import com.kkhstudy.nutube.repository.AccountRepository;
+import com.kkhstudy.nutube.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +11,10 @@ import javax.validation.ConstraintValidatorContext;
 @RequiredArgsConstructor
 public class AccountEmailExistingValidator implements ConstraintValidator<AccountEmailExisting, String> {
 
-    private final AccountRepository accountRepository;
+    private final UsersRepository usersRepository;
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
-        return accountRepository.findByEmail(email) == null;
+        return usersRepository.findByEmail(email) == null;
     }
 }

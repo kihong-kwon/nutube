@@ -1,7 +1,7 @@
 package com.kkhstudy.nutube.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kkhstudy.nutube.form.LoginForm;
+import com.kkhstudy.nutube.api.form.LoginForm;
 import com.kkhstudy.nutube.security.constants.SecurityConstants;
 import com.kkhstudy.nutube.security.token.JwtAuthenticationToken;
 import com.kkhstudy.nutube.utils.WebUtil;

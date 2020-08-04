@@ -1,6 +1,6 @@
 package com.kkhstudy.nutube.security.provider;
 
-import com.kkhstudy.nutube.security.service.AccountContext;
+import com.kkhstudy.nutube.security.service.UserContext;
 import com.kkhstudy.nutube.security.token.AjaxAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -25,12 +25,12 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         String email = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        AccountContext userContext = (AccountContext) userDetailsService.loadUserByUsername(email);
+        UserContext userContext = (UserContext) userDetailsService.loadUserByUsername(email);
 
-        if (!passwordEncoder.matches(password, userContext.getUser().getPassword())) {
+        if (!passwordEncoder.matches(password, userContext.getUsers().getPassword())) {
             throw new BadCredentialsException("BadCredentialsException");
         }
-        AjaxAuthenticationToken authenticationToken = new AjaxAuthenticationToken(userContext.getUser(), null, userContext.getAuthorities());
+        AjaxAuthenticationToken authenticationToken = new AjaxAuthenticationToken(userContext.getUsers(), null, userContext.getAuthorities());
         return authenticationToken;
     }
 

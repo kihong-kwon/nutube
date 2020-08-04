@@ -1,6 +1,6 @@
 package com.kkhstudy.nutube.security.provider;
 
-import com.kkhstudy.nutube.security.service.AccountContext;
+import com.kkhstudy.nutube.security.service.UserContext;
 import com.kkhstudy.nutube.security.token.JwtAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,12 +24,12 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String email = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        AccountContext userContext = (AccountContext) userDetailsService.loadUserByUsername(email);
+        UserContext userContext = (UserContext) userDetailsService.loadUserByUsername(email);
 
-        if (!passwordEncoder.matches(password, userContext.getUser().getPassword())) {
+        if (!passwordEncoder.matches(password, userContext.getUsers().getPassword())) {
             throw new BadCredentialsException("BadCredentialsException");
         }
-        JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(userContext.getUser(), null, userContext.getAuthorities());
+        JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(userContext.getUsers(), null, userContext.getAuthorities());
         return authenticationToken;
     }
 

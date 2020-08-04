@@ -1,4 +1,4 @@
-package com.kkhstudy.nutube.form;
+package com.kkhstudy.nutube.api.form;
 
 import lombok.Getter;
 import lombok.Setter;

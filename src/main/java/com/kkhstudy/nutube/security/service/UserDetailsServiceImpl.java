@@ -1,7 +1,7 @@
 package com.kkhstudy.nutube.security.service;
 
-import com.kkhstudy.nutube.domain.Account;
-import com.kkhstudy.nutube.repository.AccountRepository;
+import com.kkhstudy.nutube.domain.Users;
+import com.kkhstudy.nutube.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,25 +15,24 @@ import java.util.List;
 
 @Service("userDetailsService")
 @RequiredArgsConstructor
-public class AccountDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final AccountRepository accountRepository;
-
+    private final UsersRepository usersRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Account user = accountRepository.findByEmail(email);
+        Users users = usersRepository.findByEmail(email);
 
-        if (user == null) {
+        if (users == null) {
             throw new UsernameNotFoundException("UsernameNotFoundException");
         }
 
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(user.getRole()));
+        roles.add(new SimpleGrantedAuthority(users.getRole()));
 
-        AccountContext accountContext = new AccountContext(user, roles);
+        UserContext userContext = new UserContext(users, roles);
 
-        return accountContext;
+        return userContext;
     }
 }

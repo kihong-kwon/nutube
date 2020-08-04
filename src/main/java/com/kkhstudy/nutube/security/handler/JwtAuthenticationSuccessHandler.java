@@ -1,6 +1,6 @@
 package com.kkhstudy.nutube.security.handler;
 
-import com.kkhstudy.nutube.domain.Account;
+import com.kkhstudy.nutube.domain.Users;
 import com.kkhstudy.nutube.security.constants.SecurityConstants;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,7 +21,7 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        Account account = (Account) authentication.getPrincipal();
+        Users users = (Users) authentication.getPrincipal();
         byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
 
         response.setStatus(HttpStatus.OK.value());
@@ -32,9 +32,9 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
                 .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
                 .setIssuer(SecurityConstants.TOKEN_ISSUER)
                 .setAudience(SecurityConstants.TOKEN_AUDIENCE)
-                .setSubject(account.getEmail())
+                .setSubject(users.getEmail())
                 .setExpiration(new Date(System.currentTimeMillis() + 864000000))
-                .claim("rol", account.getRole())
+                .claim("rol", users.getRole())
                 .compact();
 
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
